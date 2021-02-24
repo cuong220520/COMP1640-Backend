@@ -9,4 +9,8 @@ public class DateUtil {
     public static Date now() {
         return new Date();
     }
+
+    public static Long currentEpochSecond() {
+        return new Date().toInstant().getEpochSecond();
+    }
 }

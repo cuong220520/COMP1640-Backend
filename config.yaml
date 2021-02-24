@@ -34,3 +34,6 @@ localization:
 jwt:
   privateKey: "MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgbOttWnN1S/hInMd7aFoQHFdhkzZj61/XSrc7QFx9unegCgYIKoZIzj0DAQehRANCAARk++lWyCaGNlbzqugMcJWDOmwv3n96QQ0uZK6FCI0JCGpveLIhmp3NPXKmHOEElnSfx8Bd738NlLb+IjGIjeRZ"
   publicKey: "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEZPvpVsgmhjZW86roDHCVgzpsL95/ekENLmSuhQiNCQhqb3iyIZqdzT1yphzhBJZ0n8fAXe9/DZS2/iIxiI3kWQ=="
+
+multipart:
+  uploadFileDir: "uploads"
