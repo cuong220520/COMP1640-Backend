@@ -6,6 +6,8 @@ import com.greenwich.comp1640.repository.readwrite.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class UserDao extends BaseDao<User, Long> {
     private final UserRepository userRepository;
@@ -24,5 +26,9 @@ public class UserDao extends BaseDao<User, Long> {
 
     public User findByUsername(String username) {
         return this.userRORepository.findByUsername(username);
+    }
+
+    public Optional<User> findById(Long id) {
+        return this.userRORepository.findById(id);
     }
 }
