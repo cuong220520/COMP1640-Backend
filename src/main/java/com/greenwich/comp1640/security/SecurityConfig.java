@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/demo/**").hasRole("ADMIN")
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/campaign/**").permitAll()
+                .antMatchers("/api/file/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

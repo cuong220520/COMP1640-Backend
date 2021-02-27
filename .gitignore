@@ -4,7 +4,11 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+<<<<<<< HEAD
 /src/main/webapp/uploads/
+=======
+src/main/webapp/uploads/**
+>>>>>>> @cuong/upload-file
 
 ### STS ###
 .apt_generated
