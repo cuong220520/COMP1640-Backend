@@ -1,6 +1,5 @@
 package com.greenwich.comp1640.controller;
 
-import com.greenwich.comp1640.dto.parameter.PagingOptionDto;
 import com.greenwich.comp1640.dto.request.campaign.CreateCampaignRequestDto;
 import com.greenwich.comp1640.dto.request.campaign.UpdateCampaignRequestDto;
 import com.greenwich.comp1640.response.GeneralResponse;
@@ -24,11 +23,7 @@ public class CampaignController {
     }
 
     @GetMapping
-    public ResponseEntity<GeneralResponse<Object>> getAllCampaign(
-            PagingOptionDto pagingOptionDto,
-            String sort
-            ) {
-
+    public ResponseEntity<GeneralResponse<Object>> getAllCampaign() {
         return campaignService.getCampaignList();
     }
 

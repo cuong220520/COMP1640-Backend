@@ -26,7 +26,7 @@ public class CreateCampaignRequestDto {
 
     @NotNull(message = TranslationConst.ValidationMessage.NOT_NULL)
     @NotEmpty(message = TranslationConst.ValidationMessage.NOT_EMPTY)
-    @Length(max = 100, message = TranslationConst.ValidationMessage.LENGTH)
+    @Length(max = 255, message = TranslationConst.ValidationMessage.LENGTH)
     @JsonProperty("code")
     private String code;
 

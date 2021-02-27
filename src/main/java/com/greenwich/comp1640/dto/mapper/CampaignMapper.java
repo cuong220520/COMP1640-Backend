@@ -5,13 +5,15 @@ import com.greenwich.comp1640.dto.request.campaign.UpdateCampaignRequestDto;
 import com.greenwich.comp1640.dto.response.CampaignResponseDto;
 import com.greenwich.comp1640.model.Campaign;
 import com.greenwich.comp1640.model.User;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class CampaignMapper {
+
+    private CampaignMapper() {
+
+    }
 
     public static CampaignResponseDto toDto(Campaign campaign) {
         CampaignResponseDto campaignResponseDto = new CampaignResponseDto();

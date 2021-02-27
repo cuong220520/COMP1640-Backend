@@ -3,7 +3,6 @@ package com.greenwich.comp1640.service.abstr;
 import com.greenwich.comp1640.dto.request.campaign.CreateCampaignRequestDto;
 import com.greenwich.comp1640.dto.request.campaign.UpdateCampaignRequestDto;
 import com.greenwich.comp1640.response.GeneralResponse;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface CampaignService {

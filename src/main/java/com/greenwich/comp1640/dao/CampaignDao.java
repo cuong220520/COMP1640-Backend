@@ -4,8 +4,6 @@ import com.greenwich.comp1640.model.Campaign;
 import com.greenwich.comp1640.repository.readonly.CampaignRORepository;
 import com.greenwich.comp1640.repository.readwrite.CampaignRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
