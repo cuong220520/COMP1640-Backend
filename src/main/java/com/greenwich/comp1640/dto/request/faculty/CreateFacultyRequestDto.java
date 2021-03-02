@@ -32,7 +32,10 @@ public class CreateFacultyRequestDto {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("coordinator_id")
-    private Long coordinatorId;
+    @NotNull(message = TranslationConst.ValidationMessage.NOT_NULL)
+    @NotEmpty(message = TranslationConst.ValidationMessage.NOT_EMPTY)
+    @Length(max = 4, message = TranslationConst.ValidationMessage.LENGTH)
+    @JsonProperty("coordinator_username")
+    private String coordinatorUsername;
 
 }

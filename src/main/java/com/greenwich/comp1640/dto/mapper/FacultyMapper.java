@@ -20,7 +20,7 @@ public class FacultyMapper {
         facultyResponseDto.setCode(faculty.getCode());
         facultyResponseDto.setName(faculty.getName());
         facultyResponseDto.setDescription(faculty.getDescription());
-        facultyResponseDto.setCoordinatorId(faculty.getCoordinatorManager().getId());
+        facultyResponseDto.setCoordinatorUsername(faculty.getCoordinatorManager().getUsername());
 
         return facultyResponseDto;
     }

@@ -43,7 +43,9 @@ public class CreateCampaignRequestDto {
     private Date startDate;
 
     @NotNull(message = TranslationConst.ValidationMessage.NOT_NULL)
-    @JsonProperty("admin_id")
-    private Long adminId;
+    @NotEmpty(message = TranslationConst.ValidationMessage.NOT_EMPTY)
+    @Length(max = 255, message = TranslationConst.ValidationMessage.LENGTH)
+    @JsonProperty("admin_username")
+    private String adminUsername;
 
 }

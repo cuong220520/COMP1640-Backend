@@ -72,7 +72,7 @@ public class JWTUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(DateUtil.now())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 12))
                 .signWith(ecdsa.convertPrivKeyStrToKey(jwtVerifierConfigProperties.getPrivateKey()), SignatureAlgorithm.ES256)
                 .compact();
     }

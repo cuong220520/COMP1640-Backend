@@ -15,6 +15,6 @@ public interface FacultyService {
 
     ResponseEntity<GeneralResponse<Object>> getFaculty(String code);
 
-    ResponseEntity<GeneralResponse<Object>> getFacultyByCoordinatorId(Long coordinatorId);
+    ResponseEntity<GeneralResponse<Object>> getFacultyByCoordinatorUsername(String username);
     
 }

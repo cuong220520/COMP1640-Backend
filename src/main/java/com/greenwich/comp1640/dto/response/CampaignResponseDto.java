@@ -26,7 +26,7 @@ public class CampaignResponseDto {
     @JsonProperty("start_date")
     private Date startDate;
 
-    @JsonProperty("admin_id")
-    private Long adminId;
+    @JsonProperty("admin_username")
+    private String adminUsername;
 
 }

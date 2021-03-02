@@ -8,6 +8,6 @@ public interface FacultyRORepository extends GenericRORepository<Faculty, String
 
     Faculty findByCode(String code);
 
-    Faculty findByCoordinatorManagerId(Long coordinatorId);
+    Faculty findByCoordinatorManagerUsername(String username);
 
 }

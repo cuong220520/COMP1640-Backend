@@ -18,7 +18,7 @@ public class UpdateFacultyRequestDto {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("coordinator_id")
-    private Long coordinatorId;
+    @JsonProperty("coordinator_username")
+    private String coordinatorUsername;
 
 }

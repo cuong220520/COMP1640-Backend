@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -53,16 +52,16 @@ public class CampaignServiceImpl implements CampaignService {
                     null);
         }
 
-        Optional<User> admin = userDao.findById(createCampaignRequestDto.getAdminId());
+        User admin = userDao.findByUsername(createCampaignRequestDto.getAdminUsername());
 
-        if (!admin.isPresent()) {
-            log.error(String.format("Can not find user with user id: %d", createCampaignRequestDto.getAdminId()));
-            return responseFactory.fail(String.format("Can not find user with user id: %d", createCampaignRequestDto.getAdminId()),
+        if (admin == null) {
+            log.error(String.format("Can not find user with username: %s", createCampaignRequestDto.getAdminUsername()));
+            return responseFactory.fail(String.format("Can not find user with username: %s", createCampaignRequestDto.getAdminUsername()),
                     ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
                     null);
         }
 
-        Campaign newCampaign = CampaignMapper.createFromDto(createCampaignRequestDto, admin.get());
+        Campaign newCampaign = CampaignMapper.createFromDto(createCampaignRequestDto, admin);
 
         campaignDao.saveCampaign(newCampaign);
 
@@ -80,16 +79,16 @@ public class CampaignServiceImpl implements CampaignService {
                     null);
         }
 
-        Optional<User> admin = userDao.findById(updateCampaignRequestDto.getAdminId());
+        User admin = userDao.findByUsername(updateCampaignRequestDto.getAdminUsername());
 
-        if (!admin.isPresent()) {
-            log.error(String.format("Can not find user with user id: %d", updateCampaignRequestDto.getAdminId()));
-            return responseFactory.fail(String.format("Can not find user with user id: %d", updateCampaignRequestDto.getAdminId()),
+        if (admin == null) {
+            log.error(String.format("Can not find user with username: %s", updateCampaignRequestDto.getAdminUsername()));
+            return responseFactory.fail(String.format("Can not find user with username: %s", updateCampaignRequestDto.getAdminUsername()),
                     ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
                     null);
         }
         
-        Campaign updatedCampaign = CampaignMapper.updateFromDto(campaign, updateCampaignRequestDto, admin.get());
+        Campaign updatedCampaign = CampaignMapper.updateFromDto(campaign, updateCampaignRequestDto, admin);
 
         campaignDao.saveCampaign(updatedCampaign);
 

@@ -53,16 +53,16 @@ public class FacultyServiceImpl implements FacultyService {
                     null);
         }
 
-        Optional<User> coordinatorManager = userDao.findById(createFacultyRequestDto.getCoordinatorId());
+        User coordinatorManager = userDao.findByUsername(createFacultyRequestDto.getCoordinatorUsername());
 
-        if (!coordinatorManager.isPresent()) {
-            log.error(String.format("Can not find user with user id: %d", createFacultyRequestDto.getCoordinatorId()));
-            return responseFactory.fail(String.format("Can not find user with user id: %d", createFacultyRequestDto.getCoordinatorId()),
+        if (coordinatorManager == null) {
+            log.error(String.format("Can not find user with username: %s", createFacultyRequestDto.getCoordinatorUsername()));
+            return responseFactory.fail(String.format("Can not find user with username: %s", createFacultyRequestDto.getCoordinatorUsername()),
                     ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
                     null);
         }
 
-        Faculty newFaculty = FacultyMapper.createFromDto(createFacultyRequestDto, coordinatorManager.get());
+        Faculty newFaculty = FacultyMapper.createFromDto(createFacultyRequestDto, coordinatorManager);
 
         facultyDao.saveFaculty(newFaculty);
 
@@ -80,16 +80,16 @@ public class FacultyServiceImpl implements FacultyService {
                     null);
         }
 
-        Optional<User> coordinatorManager = userDao.findById(updateFacultyRequestDto.getCoordinatorId());
+        User coordinatorManager = userDao.findByUsername(updateFacultyRequestDto.getCoordinatorUsername());
 
-        if (!coordinatorManager.isPresent()) {
-            log.error(String.format("Can not find user with user id: %d", updateFacultyRequestDto.getCoordinatorId()));
-            return responseFactory.fail(String.format("Can not find user with user id: %d", updateFacultyRequestDto.getCoordinatorId()),
+        if (coordinatorManager == null) {
+            log.error(String.format("Can not find user with username: %s", updateFacultyRequestDto.getCoordinatorUsername()));
+            return responseFactory.fail(String.format("Can not find user with username: %s", updateFacultyRequestDto.getCoordinatorUsername()),
                     ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
                     null);
         }
 
-        Faculty updatedFaculty = FacultyMapper.updateFromDto(faculty, updateFacultyRequestDto, coordinatorManager.get());
+        Faculty updatedFaculty = FacultyMapper.updateFromDto(faculty, updateFacultyRequestDto, coordinatorManager);
 
         facultyDao.saveFaculty(updatedFaculty);
 
@@ -111,12 +111,12 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public ResponseEntity<GeneralResponse<Object>> getFacultyByCoordinatorId(Long coordinatorId) {
-        Faculty faculty = facultyDao.findByCoordinatorId(coordinatorId);
+    public ResponseEntity<GeneralResponse<Object>> getFacultyByCoordinatorUsername(String username) {
+        Faculty faculty = facultyDao.findByCoordinatorUsername(username);
 
         if (faculty == null) {
-            log.error(String.format("Can not find faculty with coordinator id: %s", coordinatorId));
-            return responseFactory.fail(String.format("Can not find faculty with coordinator id: %s", coordinatorId),
+            log.error(String.format("Can not find faculty with coordinator username: %s", username));
+            return responseFactory.fail(String.format("Can not find faculty with coordinator username: %s", username),
                     ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
                     null);
         }

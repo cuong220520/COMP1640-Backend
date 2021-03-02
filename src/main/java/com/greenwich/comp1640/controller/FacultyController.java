@@ -39,8 +39,8 @@ public class FacultyController {
         return facultyService.getFaculty(code);
     }
 
-    @GetMapping(value = "/get-by-coordinator/{coordinatorId}")
-    public ResponseEntity<GeneralResponse<Object>> getFaculty(@PathVariable("coordinatorId") Long coordinatorId) {
-        return facultyService.getFacultyByCoordinatorId(coordinatorId);
+    @GetMapping(value = "/get-by-coordinator/{coordinatorUsername}")
+    public ResponseEntity<GeneralResponse<Object>> getFacultyByCoordinator(@PathVariable("coordinatorUsername") String username) {
+        return facultyService.getFacultyByCoordinatorUsername(username);
     }
 }

@@ -25,8 +25,8 @@ public class FacultyDao extends BaseDao<Faculty, String> {
         return this.facultyRORepository.findByCode(code);
     }
 
-    public Faculty findByCoordinatorId(Long coordinatorId) {
-        return this.facultyRORepository.findByCoordinatorManagerId(coordinatorId);
+    public Faculty findByCoordinatorUsername(String username) {
+        return this.facultyRORepository.findByCoordinatorManagerUsername(username);
     }
 
     public List<Faculty> findAllFaculty() {

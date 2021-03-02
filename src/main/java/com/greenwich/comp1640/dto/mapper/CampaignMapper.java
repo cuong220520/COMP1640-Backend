@@ -21,7 +21,7 @@ public class CampaignMapper {
         campaignResponseDto.setSubmitDeadline(campaign.getSubmitDeadline());
         campaignResponseDto.setEditDeadline(campaign.getEditDeadline());
         campaignResponseDto.setStartDate(campaign.getStartDate());
-        campaignResponseDto.setAdminId(campaign.getAdmin().getId());
+        campaignResponseDto.setAdminUsername(campaign.getAdmin().getUsername());
 
         return campaignResponseDto;
     }
@@ -61,7 +61,7 @@ public class CampaignMapper {
             campaign.setStartDate(updateCampaignRequestDto.getStartDate());
         }
 
-        if (updateCampaignRequestDto.getAdminId() != null) {
+        if (updateCampaignRequestDto.getAdminUsername() != null) {
             campaign.setAdmin(admin);
         }
 
