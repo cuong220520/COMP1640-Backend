@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS comp_1640.`campaign`;
+
 CREATE TABLE comp_1640.`campaign` (
     `code` VARCHAR(255),
     `submit_deadline` DATETIME,

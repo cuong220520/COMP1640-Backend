@@ -54,6 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/campaign/**").permitAll()
                 .antMatchers("/api/faculty/**").permitAll()
+                .antMatchers("/api/article/**").permitAll()
                 .antMatchers("/api/file/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
