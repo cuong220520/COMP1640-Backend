@@ -55,4 +55,8 @@ public class ArticleController {
         return articleService.getAllArticlesByCampaignCode(code);
     }
 
+    @GetMapping(value = "/get-by-status")
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByStatus(@RequestParam("status") ArticleStatusConst status) {
+        return articleService.getAllArticlesByStatus(status);
+    }
 }

@@ -37,4 +37,8 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @ManyToOne
+    @JoinColumn(name = "faculty_code", referencedColumnName = "code")
+    private Faculty faculty;
+
 }

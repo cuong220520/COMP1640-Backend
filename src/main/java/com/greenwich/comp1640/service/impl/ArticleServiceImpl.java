@@ -143,4 +143,10 @@ public class ArticleServiceImpl implements ArticleService {
         return responseFactory.success(ArticleMapper.toListDto(articles));
     }
 
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByStatus(ArticleStatusConst status) {
+        List<Article> articles = articleDao.findByStatus(status);
+
+        return responseFactory.success(ArticleMapper.toListDto(articles));
+    }
 }

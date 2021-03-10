@@ -1,11 +1,13 @@
 package com.greenwich.comp1640.service.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.greenwich.comp1640.dao.RoleDao;
 import com.greenwich.comp1640.dao.UserDao;
 import com.greenwich.comp1640.dao.UserRoleDao;
+import com.greenwich.comp1640.dto.mapper.UserMapper;
 import com.greenwich.comp1640.dto.request.user.AuthRequestDto;
 import com.greenwich.comp1640.dto.request.user.SignupRequestDto;
 import com.greenwich.comp1640.model.Role;
@@ -28,6 +30,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -108,7 +112,10 @@ public class UserServiceImpl implements UserService {
 
             ArrayNode authorities = mapper.valueToTree(principal.getAuthorities());
 
+            com.greenwich.comp1640.model.User loadedUser = userDao.findByUsername(principal.getUsername());
+
             response.put("username", principal.getUsername());
+            response.putPOJO("details", UserMapper.toDto(loadedUser));
             response.putArray("authorities").addAll(authorities);
 
             return responseFactory.success(response);
