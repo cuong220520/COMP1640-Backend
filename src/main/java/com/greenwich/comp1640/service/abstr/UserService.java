@@ -8,12 +8,14 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
-    public ResponseEntity<GeneralResponse<Object>> login(AuthRequestDto authRequestDto);
+    ResponseEntity<GeneralResponse<Object>> login(AuthRequestDto authRequestDto);
 
-    public ResponseEntity<GeneralResponse<Object>> refreshToken(Claims claims);
+    ResponseEntity<GeneralResponse<Object>> refreshToken(Claims claims);
 
-    public ResponseEntity<GeneralResponse<Object>> loadUser();
+    ResponseEntity<GeneralResponse<Object>> loadUser();
 
-    public ResponseEntity<GeneralResponse<Object>> signup(SignupRequestDto signupRequestDto);
+    ResponseEntity<GeneralResponse<Object>> signup(SignupRequestDto signupRequestDto);
+
+    ResponseEntity<GeneralResponse<Object>> getUser(Long id);
 
 }

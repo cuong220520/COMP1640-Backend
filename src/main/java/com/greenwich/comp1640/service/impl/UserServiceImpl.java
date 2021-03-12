@@ -162,4 +162,18 @@ public class UserServiceImpl implements UserService {
             return responseFactory.fail(ex.getMessage(), ResponseStatusCodeConst.INTERNAL_SERVER_ERROR, null);
         }
     }
+
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> getUser(Long id) {
+        Optional<com.greenwich.comp1640.model.User> user = userDao.findById(id);
+
+        if (!user.isPresent()) {
+            log.error(String.format("Can not find user with id: %d", id));
+            return responseFactory.fail(String.format("Can not find user with id: %d", id),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        return responseFactory.success(UserMapper.toDto(user.get()));
+    }
 }
