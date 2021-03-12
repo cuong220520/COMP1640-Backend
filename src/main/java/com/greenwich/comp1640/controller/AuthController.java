@@ -41,7 +41,7 @@ public class AuthController {
     }
 
     @GetMapping(value = "/get-user")
-    public ResponseEntity<GeneralResponse<Object>> getUser(@RequestParam("id") Long id) {
-        return userService.getUser(id);
+    public ResponseEntity<GeneralResponse<Object>> getUser(@RequestParam("username") String username) {
+        return userService.getUserByUsername(username);
     }
 }

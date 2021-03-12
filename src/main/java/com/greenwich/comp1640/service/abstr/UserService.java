@@ -16,6 +16,6 @@ public interface UserService {
 
     ResponseEntity<GeneralResponse<Object>> signup(SignupRequestDto signupRequestDto);
 
-    ResponseEntity<GeneralResponse<Object>> getUser(Long id);
+    ResponseEntity<GeneralResponse<Object>> getUserByUsername(String username);
 
 }

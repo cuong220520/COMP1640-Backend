@@ -164,16 +164,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<GeneralResponse<Object>> getUser(Long id) {
-        Optional<com.greenwich.comp1640.model.User> user = userDao.findById(id);
+    public ResponseEntity<GeneralResponse<Object>> getUserByUsername(String username) {
+        com.greenwich.comp1640.model.User user = userDao.findByUsername(username);
 
-        if (!user.isPresent()) {
-            log.error(String.format("Can not find user with id: %d", id));
-            return responseFactory.fail(String.format("Can not find user with id: %d", id),
+        if (user == null) {
+            log.error(String.format("Can not find user with username: %s", username));
+            return responseFactory.fail(String.format("Can not find user with username: %s", username),
                     ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
                     null);
         }
 
-        return responseFactory.success(UserMapper.toDto(user.get()));
+        return responseFactory.success(UserMapper.toDto(user));
     }
 }
