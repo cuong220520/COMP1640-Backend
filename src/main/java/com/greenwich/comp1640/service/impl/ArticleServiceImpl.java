@@ -15,6 +15,7 @@ import com.greenwich.comp1640.model.User;
 import com.greenwich.comp1640.response.GeneralResponse;
 import com.greenwich.comp1640.response.ResponseFactory;
 import com.greenwich.comp1640.service.abstr.ArticleService;
+import com.greenwich.comp1640.util.DateUtil;
 import com.greenwich.comp1640.util.constant.ArticleStatusConst;
 import com.greenwich.comp1640.util.constant.ResponseStatusCodeConst;
 import lombok.extern.slf4j.Slf4j;
@@ -83,6 +84,13 @@ public class ArticleServiceImpl implements ArticleService {
                     null);
         }
 
+        if (DateUtil.now().after(campaign.getSubmitDeadline())) {
+            log.error(String.format("Submission time has expired"));
+            return responseFactory.fail(String.format("Submission time has expired"),
+                    ResponseStatusCodeConst.BUSINESS_ERROR,
+                    null);
+        }
+
         Article newArticle = ArticleMapper.createFromDto(createArticleRequestDto, user, faculty, campaign);
 
         articleDao.saveArticle(newArticle);
@@ -98,6 +106,29 @@ public class ArticleServiceImpl implements ArticleService {
             log.error(String.format("Can not find article with article id: %d", id));
             return responseFactory.fail(String.format("Can not find article with article id: %d", id),
                     ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        Campaign campaign = campaignDao.findByCode(article.get().getCampaign().getCode());
+
+        if (campaign == null) {
+            log.error(String.format("Can not find campaign with code: %s", article.get().getCampaign().getCode()));
+            return responseFactory.fail(String.format("Can not find campaign with code: %s", article.get().getCampaign().getCode()),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        if (DateUtil.now().after(campaign.getEditDeadline())) {
+            log.error(String.format("Modify time has expired"));
+            return responseFactory.fail(String.format("Modify time has expired"),
+                    ResponseStatusCodeConst.BUSINESS_ERROR,
+                    null);
+        }
+
+        if (DateUtil.now().after(campaign.getSubmitDeadline())) {
+            log.error(String.format("Submission time has expired"));
+            return responseFactory.fail(String.format("Submission time has expired"),
+                    ResponseStatusCodeConst.BUSINESS_ERROR,
                     null);
         }
 
@@ -148,5 +179,24 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> articles = articleDao.findByStatus(status);
 
         return responseFactory.success(ArticleMapper.toListDto(articles));
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> updateArticleStatus(Long id, ArticleStatusConst status) {
+        Optional<Article> article = articleDao.findById(id);
+
+        if (!article.isPresent()) {
+            log.error(String.format("Can not find article with article id: %d", id));
+            return responseFactory.fail(String.format("Can not find article with article id: %d", id),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        Article existArticle = article.get();
+        existArticle.setStatus(status);
+
+        articleDao.saveArticle(existArticle);
+
+        return responseFactory.success(ArticleMapper.toDto(existArticle));
     }
 }

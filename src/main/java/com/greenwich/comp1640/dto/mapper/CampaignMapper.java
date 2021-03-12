@@ -5,6 +5,7 @@ import com.greenwich.comp1640.dto.request.campaign.UpdateCampaignRequestDto;
 import com.greenwich.comp1640.dto.response.CampaignResponseDto;
 import com.greenwich.comp1640.model.Campaign;
 import com.greenwich.comp1640.model.User;
+import com.greenwich.comp1640.util.constant.CampaignStatusConst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +19,11 @@ public class CampaignMapper {
     public static CampaignResponseDto toDto(Campaign campaign) {
         CampaignResponseDto campaignResponseDto = new CampaignResponseDto();
         campaignResponseDto.setCode(campaign.getCode());
-        campaignResponseDto.setSubmitDeadline(campaign.getSubmitDeadline());
-        campaignResponseDto.setEditDeadline(campaign.getEditDeadline());
-        campaignResponseDto.setStartDate(campaign.getStartDate());
+        campaignResponseDto.setSubmitDeadline(campaign.getSubmitDeadline().toInstant().getEpochSecond());
+        campaignResponseDto.setEditDeadline(campaign.getEditDeadline().toInstant().getEpochSecond());
+        campaignResponseDto.setStartDate(campaign.getStartDate().toInstant().getEpochSecond());
         campaignResponseDto.setAdminUsername(campaign.getAdmin().getUsername());
+        campaignResponseDto.setStatus(campaign.getStatus());
 
         return campaignResponseDto;
     }
@@ -44,6 +46,7 @@ public class CampaignMapper {
         campaign.setEditDeadline(createCampaignRequestDto.getEditDeadline());
         campaign.setStartDate(createCampaignRequestDto.getEditDeadline());
         campaign.setAdmin(admin);
+        campaign.setStatus(CampaignStatusConst.DISABLE);
 
         return campaign;
     }

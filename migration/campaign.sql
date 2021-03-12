@@ -9,3 +9,6 @@ CREATE TABLE comp_1640.`campaign` (
     PRIMARY KEY(`code`),
     FOREIGN KEY(`admin_id`) REFERENCES comp_1640.`user`(id)
 );
+
+ALTER TABLE comp_1640.`campaign`
+ADD COLUMN `status` ENUM('ACTIVE', 'DISABLE') DEFAULT 'DISABLE';

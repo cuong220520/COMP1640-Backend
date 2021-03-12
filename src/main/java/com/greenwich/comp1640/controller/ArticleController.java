@@ -59,4 +59,11 @@ public class ArticleController {
     public ResponseEntity<GeneralResponse<Object>> getAllArticlesByStatus(@RequestParam("status") ArticleStatusConst status) {
         return articleService.getAllArticlesByStatus(status);
     }
+
+    @PutMapping(value = "/update-status/{id}")
+    public ResponseEntity<GeneralResponse<Object>> updateArticle(
+            @PathVariable("id") Long id,
+            @RequestParam("status") ArticleStatusConst status) {
+        return articleService.updateArticleStatus(id, status);
+    }
 }

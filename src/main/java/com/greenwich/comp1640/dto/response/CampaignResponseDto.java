@@ -1,12 +1,11 @@
 package com.greenwich.comp1640.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.greenwich.comp1640.util.constant.CampaignStatusConst;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Date;
 
 @Getter
 @Setter
@@ -18,15 +17,18 @@ public class CampaignResponseDto {
     private String code;
 
     @JsonProperty("submit_deadline")
-    private Date submitDeadline;
+    private Long submitDeadline;
 
     @JsonProperty("edit_deadline")
-    private Date editDeadline;
+    private Long editDeadline;
 
     @JsonProperty("start_date")
-    private Date startDate;
+    private Long startDate;
 
     @JsonProperty("admin_username")
     private String adminUsername;
+
+    @JsonProperty("status")
+    private CampaignStatusConst status;
 
 }

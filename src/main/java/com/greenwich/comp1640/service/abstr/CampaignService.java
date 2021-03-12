@@ -15,4 +15,8 @@ public interface CampaignService {
 
     ResponseEntity<GeneralResponse<Object>> getCampaign(String code);
 
+    ResponseEntity<GeneralResponse<Object>> updateStatus(String code);
+
+    ResponseEntity<GeneralResponse<Object>> getActiveCampaign();
+
 }

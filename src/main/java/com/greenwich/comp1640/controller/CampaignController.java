@@ -39,4 +39,14 @@ public class CampaignController {
         return campaignService.getCampaign(code);
     }
 
+    @PutMapping(value = "/update-status")
+    public ResponseEntity<GeneralResponse<Object>> updateCampaignStatus(@RequestParam("code") String code) {
+        return campaignService.updateStatus(code);
+    }
+
+    @GetMapping(value = "/get-current-campaign")
+    public ResponseEntity<GeneralResponse<Object>> getCurrentCampaign() {
+        return campaignService.getActiveCampaign();
+    }
+
 }

@@ -72,10 +72,6 @@ public class ArticleMapper {
             article.setImageUrl(updateArticleRequestDto.getImageUrl());
         }
 
-        if (updateArticleRequestDto.getStatus() != null) {
-            article.setStatus(updateArticleRequestDto.getStatus());
-        }
-
         if (updateArticleRequestDto.getDocumentUrl() != null) {
             article.setDocumentUrl(updateArticleRequestDto.getDocumentUrl());
         }

@@ -14,6 +14,8 @@ public interface ArticleService {
 
     ResponseEntity<GeneralResponse<Object>> updateArticle(Long id, UpdateArticleRequestDto updateArticleRequestDto);
 
+    ResponseEntity<GeneralResponse<Object>> updateArticleStatus(Long id, ArticleStatusConst status);
+
     ResponseEntity<GeneralResponse<Object>> getArticle(Long id);
 
     ResponseEntity<GeneralResponse<Object>> getAllArticlesByStatus(ArticleStatusConst status);

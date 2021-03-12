@@ -1,5 +1,6 @@
 package com.greenwich.comp1640.model;
 
+import com.greenwich.comp1640.util.constant.CampaignStatusConst;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,10 @@ public class Campaign {
 
     @Column(name = "start_date")
     private Date startDate;
+
+    @Column(name = "status")
+    @Enumerated(value = EnumType.STRING)
+    private CampaignStatusConst status;
 
     @OneToOne
     @JoinColumn(name = "admin_id", referencedColumnName = "id")

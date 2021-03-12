@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,12 +22,15 @@ public class UserDetailsResponseDto {
     private String lastName;
 
     @JsonProperty("date_of_birth")
-    private Date dateOfBirth;
+    private Long dateOfBirth;
 
     @JsonProperty("phone_number")
     private String phoneNumber;
 
     @JsonProperty("faculty_code")
     private String facultyCode;
+
+    @JsonProperty("email")
+    private String email;
 
 }

@@ -3,6 +3,7 @@ package com.greenwich.comp1640.dao;
 import com.greenwich.comp1640.model.Campaign;
 import com.greenwich.comp1640.repository.readonly.CampaignRORepository;
 import com.greenwich.comp1640.repository.readwrite.CampaignRepository;
+import com.greenwich.comp1640.util.constant.CampaignStatusConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +27,10 @@ public class CampaignDao extends BaseDao<Campaign, String> {
 
     public Campaign saveCampaign(Campaign campaign) {
         return this.campaignRepository.save(campaign);
+    }
+
+    public Campaign getActiveCampaign(CampaignStatusConst status) {
+        return this.campaignRORepository.findByStatus(status);
     }
 
     public List<Campaign> findAllCampaign() {

@@ -15,9 +15,10 @@ public class UserMapper {
         userDetailsResponseDto.setId(user.getId());
         userDetailsResponseDto.setFirstName(user.getFirstName());
         userDetailsResponseDto.setLastName(user.getLastName());
-        userDetailsResponseDto.setDateOfBirth(user.getDateOfBirth());
+        userDetailsResponseDto.setDateOfBirth(user.getDateOfBirth().toInstant().getEpochSecond());
         userDetailsResponseDto.setPhoneNumber(user.getPhoneNumber());
         userDetailsResponseDto.setFacultyCode(user.getFaculty().getCode());
+        userDetailsResponseDto.setEmail(user.getEmail());
 
         return userDetailsResponseDto;
     }

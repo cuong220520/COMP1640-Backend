@@ -22,9 +22,6 @@ public class UpdateArticleRequestDto {
     @JsonProperty("image_url")
     private String imageUrl;
 
-    @JsonProperty("status")
-    private ArticleStatusConst status;
-
     @JsonProperty("document_url")
     private String documentUrl;
 

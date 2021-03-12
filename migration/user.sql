@@ -13,3 +13,10 @@ SET `first_name` = 'John',
     `phone_number` = '0123456789',
     `faculty_code` = 'COMP'
 WHERE `id` = 1;
+
+ALTER TABLE comp_1640.`user`
+ADD COLUMN `email` VARCHAR(100);
+
+UPDATE comp_1640.`user`
+SET `email` = 'phamthaison11@gmail.com'
+WHERE `id` = 1;
