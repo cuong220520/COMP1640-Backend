@@ -49,4 +49,12 @@ public class ArticleDao extends BaseDao<Article, Long> {
     public List<Article> findByStatus(ArticleStatusConst status) {
         return this.articleRORepository.findByStatus(status);
     }
+
+    public List<Article> findByFacultyAndStatus(String code, ArticleStatusConst status) {
+        return this.articleRORepository.findByFacultyCodeAndStatus(code, status);
+    }
+
+    public List<Article> findByFacultyAndStatusAndCampaign(String facultyCode, ArticleStatusConst status, String campaignCode) {
+        return this.articleRORepository.findByFacultyCodeAndStatusAndCampaignCode(facultyCode, status, campaignCode);
+    }
 }

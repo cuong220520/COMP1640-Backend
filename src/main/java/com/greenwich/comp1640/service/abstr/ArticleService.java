@@ -4,11 +4,12 @@ import com.greenwich.comp1640.dto.request.article.CreateArticleRequestDto;
 import com.greenwich.comp1640.dto.request.article.UpdateArticleRequestDto;
 import com.greenwich.comp1640.response.GeneralResponse;
 import com.greenwich.comp1640.util.constant.ArticleStatusConst;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface ArticleService {
 
-    ResponseEntity<GeneralResponse<Object>> getAllArticles();
+    ResponseEntity<GeneralResponse<Object>> getAllArticles(Pageable pageable);
 
     ResponseEntity<GeneralResponse<Object>> createArticle(CreateArticleRequestDto createArticleRequestDto);
 
@@ -25,4 +26,10 @@ public interface ArticleService {
     ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCode(String code);
 
     ResponseEntity<GeneralResponse<Object>> getAllArticlesByCampaignCode(String code);
+
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatus(String code, ArticleStatusConst status);
+
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatusAndCampaignCode(String facultyCode,
+                                                                                                ArticleStatusConst status,
+                                                                                                String campaignCode);
 }

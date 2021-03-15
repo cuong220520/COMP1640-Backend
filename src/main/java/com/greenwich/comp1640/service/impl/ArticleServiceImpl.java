@@ -5,13 +5,12 @@ import com.greenwich.comp1640.dao.CampaignDao;
 import com.greenwich.comp1640.dao.FacultyDao;
 import com.greenwich.comp1640.dao.UserDao;
 import com.greenwich.comp1640.dto.mapper.ArticleMapper;
+import com.greenwich.comp1640.dto.mapper.ArticleMapper;
 import com.greenwich.comp1640.dto.request.article.CreateArticleRequestDto;
 import com.greenwich.comp1640.dto.request.article.UpdateArticleRequestDto;
 import com.greenwich.comp1640.dto.response.ArticleResponseDto;
-import com.greenwich.comp1640.model.Article;
-import com.greenwich.comp1640.model.Campaign;
-import com.greenwich.comp1640.model.Faculty;
-import com.greenwich.comp1640.model.User;
+import com.greenwich.comp1640.dto.response.ArticleResponseDto;
+import com.greenwich.comp1640.model.*;
 import com.greenwich.comp1640.response.GeneralResponse;
 import com.greenwich.comp1640.response.ResponseFactory;
 import com.greenwich.comp1640.service.abstr.ArticleService;
@@ -20,6 +19,8 @@ import com.greenwich.comp1640.util.constant.ArticleStatusConst;
 import com.greenwich.comp1640.util.constant.ResponseStatusCodeConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -46,12 +47,19 @@ public class ArticleServiceImpl implements ArticleService {
     CampaignDao campaignDao;
 
     @Override
-    public ResponseEntity<GeneralResponse<Object>> getAllArticles() {
-        List<Article> articleList = articleDao.findAllArticle();
+    public ResponseEntity<GeneralResponse<Object>> getAllArticles(Pageable pageable) {
+        Page<Article> articleList = articleDao.findAll(pageable);
 
-        List<ArticleResponseDto> articleResponseDtoList = ArticleMapper.toListDto(articleList);
+        List<ArticleResponseDto> articleResponseDtoList = ArticleMapper.toListDto(articleList.getContent());
 
-        return responseFactory.success(articleResponseDtoList);
+        GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
+                articleList.getSize(),
+                articleList.getTotalElements(),
+                articleList.getTotalPages(),
+                articleList.getNumber()
+        );
+
+        return responseFactory.success(GeneralResponse.paginated(paginationMetadata, articleResponseDtoList));
     }
 
     @Override
@@ -198,5 +206,21 @@ public class ArticleServiceImpl implements ArticleService {
         articleDao.saveArticle(existArticle);
 
         return responseFactory.success(ArticleMapper.toDto(existArticle));
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatus(String code, ArticleStatusConst status) {
+        List<Article> articles = articleDao.findByFacultyAndStatus(code, status);
+
+        return responseFactory.success(ArticleMapper.toListDto(articles));
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatusAndCampaignCode(String facultyCode,
+                                                                                                       ArticleStatusConst status,
+                                                                                                       String campaignCode) {
+        List<Article> articles = articleDao.findByFacultyAndStatusAndCampaign(facultyCode, status, campaignCode);
+
+        return responseFactory.success(ArticleMapper.toListDto(articles));
     }
 }

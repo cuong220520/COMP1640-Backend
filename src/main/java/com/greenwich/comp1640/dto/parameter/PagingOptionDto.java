@@ -17,7 +17,7 @@ import javax.validation.constraints.Min;
 public class PagingOptionDto {
     @Min(0)
     @Max(100)
-    private int limit = 5;
+    private int limit = 10;
     @Min(0)
     private int page = 0;
 

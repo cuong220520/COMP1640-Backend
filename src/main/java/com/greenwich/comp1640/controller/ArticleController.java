@@ -1,11 +1,13 @@
 package com.greenwich.comp1640.controller;
 
+import com.greenwich.comp1640.dto.parameter.PagingOptionDto;
 import com.greenwich.comp1640.dto.request.article.CreateArticleRequestDto;
 import com.greenwich.comp1640.dto.request.article.UpdateArticleRequestDto;
 import com.greenwich.comp1640.response.GeneralResponse;
 import com.greenwich.comp1640.service.abstr.ArticleService;
 import com.greenwich.comp1640.util.constant.ArticleStatusConst;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +26,10 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<GeneralResponse<Object>> getAllArticle() {
-        return articleService.getAllArticles();
+    public ResponseEntity<GeneralResponse<Object>> getAllArticle(PagingOptionDto pagingOptionDto, String sort) {
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), sort);
+
+        return articleService.getAllArticles(pageable);
     }
 
     @PutMapping(value = "/update/{id}")
@@ -66,4 +70,18 @@ public class ArticleController {
             @RequestParam("status") ArticleStatusConst status) {
         return articleService.updateArticleStatus(id, status);
     }
+
+    @GetMapping(value = "/get-by-faculty-status")
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyAndStatus(@RequestParam("code") String code,
+                                                                            @RequestParam("status") ArticleStatusConst status) {
+        return articleService.getAllArticlesByFacultyCodeAndStatus(code, status);
+    }
+
+    @GetMapping(value = "/get-by-faculty-status-campaign")
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyAndStatus(@RequestParam("faculty_code") String facultyCode,
+                                                                                    @RequestParam("status") ArticleStatusConst status,
+                                                                                    @RequestParam("campaign_code") String campaignCode) {
+        return articleService.getAllArticlesByFacultyCodeAndStatusAndCampaignCode(facultyCode, status, campaignCode);
+    }
+
 }

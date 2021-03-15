@@ -17,5 +17,7 @@ public interface ArticleRORepository extends GenericRORepository<Article, Long> 
     List<Article> findByFacultyCode(String code);
     List<Article> findByCampaignCode(String code);
     List<Article> findByStatus(ArticleStatusConst status);
+    List<Article> findByFacultyCodeAndStatus(String code, ArticleStatusConst status);
+    List<Article> findByFacultyCodeAndStatusAndCampaignCode(String facultyCode, ArticleStatusConst status, String campaignCode);
 
 }
