@@ -30,7 +30,7 @@ public class CampaignDao extends BaseDao<Campaign, String> {
     }
 
     public Campaign getActiveCampaign(CampaignStatusConst status) {
-        return this.campaignRORepository.findByStatus(status);
+        return this.campaignRORepository.findFirstByStatusOrderByStartDateDesc(status);
     }
 
     public List<Campaign> findAllCampaign() {

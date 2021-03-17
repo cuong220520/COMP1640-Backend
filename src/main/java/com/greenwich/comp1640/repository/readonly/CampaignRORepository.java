@@ -11,6 +11,6 @@ public interface CampaignRORepository extends GenericRORepository<Campaign, Stri
 
     Campaign findByCode(String code);
 
-    Campaign findByStatus(CampaignStatusConst status);
+    Campaign findFirstByStatusOrderByStartDateDesc(CampaignStatusConst status);
 
 }
