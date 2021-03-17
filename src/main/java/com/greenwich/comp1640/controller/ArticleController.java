@@ -27,7 +27,7 @@ public class ArticleController {
 
     @GetMapping
     public ResponseEntity<GeneralResponse<Object>> getAllArticle(PagingOptionDto pagingOptionDto, String sort) {
-        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), sort);
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), "-updated_at");
 
         return articleService.getAllArticles(pageable);
     }
@@ -45,23 +45,39 @@ public class ArticleController {
     }
 
     @GetMapping(value = "/get-by-user")
-    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByUser(@RequestParam("username") String username) {
-        return articleService.getAllArticlesByUser(username);
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByUser(@RequestParam("username") String username,
+                                                                        PagingOptionDto pagingOptionDto,
+                                                                        String sort) {
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), "-updated_at");
+
+        return articleService.getAllArticlesByUser(username, pageable);
     }
 
     @GetMapping(value = "/get-by-faculty")
-    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFaculty(@RequestParam("code") String code) {
-        return articleService.getAllArticlesByFacultyCode(code);
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFaculty(@RequestParam("code") String code,
+                                                                           PagingOptionDto pagingOptionDto,
+                                                                           String sort) {
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), "-updated_at");
+
+        return articleService.getAllArticlesByFacultyCode(code, pageable);
     }
 
     @GetMapping(value = "/get-by-campaign")
-    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByCampaign(@RequestParam("code") String code) {
-        return articleService.getAllArticlesByCampaignCode(code);
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByCampaign(@RequestParam("code") String code,
+                                                                            PagingOptionDto pagingOptionDto,
+                                                                            String sort) {
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), "-updated_at");
+
+        return articleService.getAllArticlesByCampaignCode(code, pageable);
     }
 
     @GetMapping(value = "/get-by-status")
-    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByStatus(@RequestParam("status") ArticleStatusConst status) {
-        return articleService.getAllArticlesByStatus(status);
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByStatus(@RequestParam("status") ArticleStatusConst status,
+                                                                          PagingOptionDto pagingOptionDto,
+                                                                          String sort) {
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), "-updated_at");
+
+        return articleService.getAllArticlesByStatus(status, pageable);
     }
 
     @PutMapping(value = "/update-status/{id}")
@@ -73,15 +89,78 @@ public class ArticleController {
 
     @GetMapping(value = "/get-by-faculty-status")
     public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyAndStatus(@RequestParam("code") String code,
-                                                                            @RequestParam("status") ArticleStatusConst status) {
-        return articleService.getAllArticlesByFacultyCodeAndStatus(code, status);
+                                                                                    @RequestParam("status") ArticleStatusConst status,
+                                                                                    PagingOptionDto pagingOptionDto,
+                                                                                    String sort) {
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), "-updated_at");
+
+        return articleService.getAllArticlesByFacultyCodeAndStatus(code, status, pageable);
+    }
+
+    @GetMapping(value = "/get-by-faculty-campaign")
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyAndCampaign(@RequestParam("faculty_code") String facultyCode,
+                                                                                    @RequestParam("campaign_code") String campaignCode,
+                                                                                    PagingOptionDto pagingOptionDto,
+                                                                                    String sort) {
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), "-updated_at");
+
+        return articleService.getAllArticlesByFacultyCodeAndCampaignCode(facultyCode, campaignCode, pageable);
+    }
+
+    @GetMapping(value = "/get-by-faculty-user")
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyAndUsername(@RequestParam("faculty_code") String facultyCode,
+                                                                                    @RequestParam("username") String username,
+                                                                                    PagingOptionDto pagingOptionDto,
+                                                                                    String sort) {
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), "-updated_at");
+
+        return articleService.getAllArticlesByFacultyCodeAndUsername(facultyCode, username, pageable);
     }
 
     @GetMapping(value = "/get-by-faculty-status-campaign")
     public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyAndStatus(@RequestParam("faculty_code") String facultyCode,
                                                                                     @RequestParam("status") ArticleStatusConst status,
-                                                                                    @RequestParam("campaign_code") String campaignCode) {
-        return articleService.getAllArticlesByFacultyCodeAndStatusAndCampaignCode(facultyCode, status, campaignCode);
+                                                                                    @RequestParam("campaign_code") String campaignCode,
+                                                                                    PagingOptionDto pagingOptionDto,
+                                                                                    String sort) {
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), "-updated_at");
+
+        return articleService.getAllArticlesByFacultyCodeAndStatusAndCampaignCode(facultyCode, status, campaignCode, pageable);
+    }
+
+    @GetMapping(value = "/get-by-faculty-status-user")
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyAndStatusAndUser(@RequestParam("faculty_code") String facultyCode,
+                                                                                    @RequestParam("status") ArticleStatusConst status,
+                                                                                    @RequestParam("username") String username,
+                                                                                    PagingOptionDto pagingOptionDto,
+                                                                                    String sort) {
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), "-updated_at");
+
+        return articleService.getAllArticlesByFacultyCodeAndStatusAndUsername(facultyCode, status, username, pageable);
+    }
+
+    @GetMapping(value = "/get-by-faculty-campaign-user")
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyAndCampaignAndUser(@RequestParam("faculty_code") String facultyCode,
+                                                                                    @RequestParam("username") String username,
+                                                                                    @RequestParam("campaign_code") String campaignCode,
+                                                                                    PagingOptionDto pagingOptionDto,
+                                                                                    String sort) {
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), "-updated_at");
+
+        return articleService.getAllArticlesByFacultyCodeAndCampaignCodeAndUsername(facultyCode, campaignCode, username, pageable);
+    }
+
+    @GetMapping(value = "/get-by-faculty-campaign-user-status")
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyAndCampaignAndUserAndStatus(@RequestParam("faculty_code") String facultyCode,
+                                                                                             @RequestParam("username") String username,
+                                                                                             @RequestParam("campaign_code") String campaignCode,
+                                                                                             @RequestParam("status") ArticleStatusConst status,
+                                                                                             PagingOptionDto pagingOptionDto,
+                                                                                             String sort) {
+        Pageable pageable = pagingOptionDto.createPageable(pagingOptionDto.getPage(), pagingOptionDto.getLimit(), "-updated_at");
+
+        return articleService.getAllArticlesByFacultyCodeAndCampaignCodeAndUsernameAndStatus(facultyCode,
+                campaignCode, username, status, pageable);
     }
 
 }

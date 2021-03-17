@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -34,6 +35,12 @@ public class Article {
 
     @Column(name = "document_url")
     private String documentUrl;
+
+    @Column(name = "created_at")
+    private Date createdAt;
+
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

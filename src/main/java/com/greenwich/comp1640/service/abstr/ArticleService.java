@@ -19,17 +19,38 @@ public interface ArticleService {
 
     ResponseEntity<GeneralResponse<Object>> getArticle(Long id);
 
-    ResponseEntity<GeneralResponse<Object>> getAllArticlesByStatus(ArticleStatusConst status);
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByStatus(ArticleStatusConst status, Pageable pageable);
 
-    ResponseEntity<GeneralResponse<Object>> getAllArticlesByUser(String username);
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByUser(String username, Pageable pageable);
 
-    ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCode(String code);
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCode(String code, Pageable pageable);
 
-    ResponseEntity<GeneralResponse<Object>> getAllArticlesByCampaignCode(String code);
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByCampaignCode(String code, Pageable pageable);
 
-    ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatus(String code, ArticleStatusConst status);
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatus(String code, ArticleStatusConst status, Pageable pageable);
+
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndCampaignCode(String facultyCode, String campaignCode, Pageable pageable);
+
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndUsername(String facultyCode, String username, Pageable pageable);
 
     ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatusAndCampaignCode(String facultyCode,
                                                                                                 ArticleStatusConst status,
-                                                                                                String campaignCode);
+                                                                                                String campaignCode,
+                                                                                                Pageable pageable);
+
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatusAndUsername(String facultyCode,
+                                                                                                ArticleStatusConst status,
+                                                                                                String username,
+                                                                                                Pageable pageable);
+
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndCampaignCodeAndUsername(String facultyCode,
+                                                                                                String campaignCode,
+                                                                                                String username,
+                                                                                                Pageable pageable);
+
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndCampaignCodeAndUsernameAndStatus(String facultyCode,
+                                                                                                  String campaignCode,
+                                                                                                  String username,
+                                                                                                  ArticleStatusConst status,
+                                                                                                  Pageable pageable);
 }

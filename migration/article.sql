@@ -15,3 +15,7 @@ CREATE TABLE comp_1640.`article`(
     FOREIGN KEY (`faculty_code`) REFERENCES comp_1640.`faculty`(`code`),
     FOREIGN KEY (`campaign_code`) REFERENCES comp_1640.`campaign`(`code`)
 );
+
+ALTER TABLE comp_1640.`article`
+ADD COLUMN `created_at` DATETIME,
+ADD COLUMN `updated_at` DATETIME;

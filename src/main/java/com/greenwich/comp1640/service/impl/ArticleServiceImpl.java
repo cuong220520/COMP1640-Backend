@@ -5,10 +5,8 @@ import com.greenwich.comp1640.dao.CampaignDao;
 import com.greenwich.comp1640.dao.FacultyDao;
 import com.greenwich.comp1640.dao.UserDao;
 import com.greenwich.comp1640.dto.mapper.ArticleMapper;
-import com.greenwich.comp1640.dto.mapper.ArticleMapper;
 import com.greenwich.comp1640.dto.request.article.CreateArticleRequestDto;
 import com.greenwich.comp1640.dto.request.article.UpdateArticleRequestDto;
-import com.greenwich.comp1640.dto.response.ArticleResponseDto;
 import com.greenwich.comp1640.dto.response.ArticleResponseDto;
 import com.greenwich.comp1640.model.*;
 import com.greenwich.comp1640.response.GeneralResponse;
@@ -48,7 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ResponseEntity<GeneralResponse<Object>> getAllArticles(Pageable pageable) {
-        Page<Article> articleList = articleDao.findAll(pageable);
+        Page<Article> articleList = articleDao.findAllArticle(pageable);
 
         List<ArticleResponseDto> articleResponseDtoList = ArticleMapper.toListDto(articleList.getContent());
 
@@ -162,31 +160,59 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByUser(String username) {
-        List<Article> articles = articleDao.findByUsername(username);
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByUser(String username, Pageable pageable) {
+        Page<Article> articles = articleDao.findByUsername(username, pageable);
 
-        return responseFactory.success(ArticleMapper.toListDto(articles));
+        GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
+                articles.getSize(),
+                articles.getTotalElements(),
+                articles.getTotalPages(),
+                articles.getNumber()
+        );
+
+        return responseFactory.success(GeneralResponse.paginated(paginationMetadata, ArticleMapper.toListDto(articles.getContent())));
     }
 
     @Override
-    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCode(String code) {
-        List<Article> articles = articleDao.findByFacultyCode(code);
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCode(String code, Pageable pageable) {
+        Page<Article> articles = articleDao.findByFacultyCode(code, pageable);
 
-        return responseFactory.success(ArticleMapper.toListDto(articles));
+        GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
+                articles.getSize(),
+                articles.getTotalElements(),
+                articles.getTotalPages(),
+                articles.getNumber()
+        );
+
+        return responseFactory.success(GeneralResponse.paginated(paginationMetadata, ArticleMapper.toListDto(articles.getContent())));
     }
 
     @Override
-    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByCampaignCode(String code) {
-        List<Article> articles = articleDao.findByCampaignCode(code);
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByCampaignCode(String code, Pageable pageable) {
+        Page<Article> articles = articleDao.findByCampaignCode(code, pageable);
 
-        return responseFactory.success(ArticleMapper.toListDto(articles));
+        GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
+                articles.getSize(),
+                articles.getTotalElements(),
+                articles.getTotalPages(),
+                articles.getNumber()
+        );
+
+        return responseFactory.success(GeneralResponse.paginated(paginationMetadata, ArticleMapper.toListDto(articles.getContent())));
     }
 
     @Override
-    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByStatus(ArticleStatusConst status) {
-        List<Article> articles = articleDao.findByStatus(status);
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByStatus(ArticleStatusConst status, Pageable pageable) {
+        Page<Article> articles = articleDao.findByStatus(status, pageable);
 
-        return responseFactory.success(ArticleMapper.toListDto(articles));
+        GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
+                articles.getSize(),
+                articles.getTotalElements(),
+                articles.getTotalPages(),
+                articles.getNumber()
+        );
+
+        return responseFactory.success(GeneralResponse.paginated(paginationMetadata, ArticleMapper.toListDto(articles.getContent())));
     }
 
     @Override
@@ -209,18 +235,120 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatus(String code, ArticleStatusConst status) {
-        List<Article> articles = articleDao.findByFacultyAndStatus(code, status);
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatus(String code,
+                                                                                        ArticleStatusConst status,
+                                                                                        Pageable pageable) {
+        Page<Article> articles = articleDao.findByFacultyAndStatus(code, status, pageable);
 
-        return responseFactory.success(ArticleMapper.toListDto(articles));
+        GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
+                articles.getSize(),
+                articles.getTotalElements(),
+                articles.getTotalPages(),
+                articles.getNumber()
+        );
+
+        return responseFactory.success(GeneralResponse.paginated(paginationMetadata, ArticleMapper.toListDto(articles.getContent())));
     }
 
     @Override
     public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatusAndCampaignCode(String facultyCode,
                                                                                                        ArticleStatusConst status,
-                                                                                                       String campaignCode) {
-        List<Article> articles = articleDao.findByFacultyAndStatusAndCampaign(facultyCode, status, campaignCode);
+                                                                                                       String campaignCode,
+                                                                                                       Pageable pageable) {
+        Page<Article> articles = articleDao.findByFacultyAndStatusAndCampaign(facultyCode, status, campaignCode, pageable);
 
-        return responseFactory.success(ArticleMapper.toListDto(articles));
+        GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
+                articles.getSize(),
+                articles.getTotalElements(),
+                articles.getTotalPages(),
+                articles.getNumber()
+        );
+
+        return responseFactory.success(GeneralResponse.paginated(paginationMetadata, ArticleMapper.toListDto(articles.getContent())));
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatusAndUsername(String facultyCode,
+                                                                                                   ArticleStatusConst status,
+                                                                                                   String username,
+                                                                                                   Pageable pageable) {
+        Page<Article> articles = articleDao.findByFacultyAndStatusAndUsername(facultyCode, status, username, pageable);
+
+        GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
+                articles.getSize(),
+                articles.getTotalElements(),
+                articles.getTotalPages(),
+                articles.getNumber()
+        );
+
+        return responseFactory.success(GeneralResponse.paginated(paginationMetadata, ArticleMapper.toListDto(articles.getContent())));
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndCampaignCodeAndUsername(String facultyCode,
+                                                                                                         String campaignCode,
+                                                                                                         String username,
+                                                                                                         Pageable pageable) {
+        Page<Article> articles = articleDao.findByFacultyAndCampaignAndUsername(facultyCode, campaignCode, username, pageable);
+
+        GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
+                articles.getSize(),
+                articles.getTotalElements(),
+                articles.getTotalPages(),
+                articles.getNumber()
+        );
+
+        return responseFactory.success(GeneralResponse.paginated(paginationMetadata, ArticleMapper.toListDto(articles.getContent())));
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndCampaignCode(String facultyCode,
+                                                                                              String campaignCode,
+                                                                                              Pageable pageable) {
+        Page<Article> articles = articleDao.findByFacultyAndCampaign(facultyCode, campaignCode, pageable);
+
+        GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
+                articles.getSize(),
+                articles.getTotalElements(),
+                articles.getTotalPages(),
+                articles.getNumber()
+        );
+
+        return responseFactory.success(GeneralResponse.paginated(paginationMetadata, ArticleMapper.toListDto(articles.getContent())));
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndUsername(String facultyCode,
+                                                                                          String username,
+                                                                                          Pageable pageable) {
+
+        Page<Article> articles = articleDao.findByFacultyAndUsername(facultyCode, username, pageable);
+
+        GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
+                articles.getSize(),
+                articles.getTotalElements(),
+                articles.getTotalPages(),
+                articles.getNumber()
+        );
+
+        return responseFactory.success(GeneralResponse.paginated(paginationMetadata, ArticleMapper.toListDto(articles.getContent())));
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndCampaignCodeAndUsernameAndStatus(String facultyCode,
+                                                                                                                  String campaignCode,
+                                                                                                                  String username,
+                                                                                                                  ArticleStatusConst status,
+                                                                                                                  Pageable pageable) {
+        Page<Article> articles = articleDao.findByFacultyAndCampaignAndUsernameAndStatus(facultyCode, campaignCode, username, status, pageable);
+
+        GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
+                articles.getSize(),
+                articles.getTotalElements(),
+                articles.getTotalPages(),
+                articles.getNumber()
+        );
+
+        return responseFactory.success(GeneralResponse.paginated(paginationMetadata, ArticleMapper.toListDto(articles.getContent())));
     }
 }

@@ -40,5 +40,11 @@ public class ArticleResponseDto {
     
     @JsonProperty("campaign_code")
     private String campaignCode;
+
+    @JsonProperty("created_at")
+    private Long createdAt;
+
+    @JsonProperty("updated_at")
+    private Long updatedAt;
     
 }

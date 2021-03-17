@@ -7,6 +7,7 @@ import com.greenwich.comp1640.model.Article;
 import com.greenwich.comp1640.model.Campaign;
 import com.greenwich.comp1640.model.Faculty;
 import com.greenwich.comp1640.model.User;
+import com.greenwich.comp1640.util.DateUtil;
 import com.greenwich.comp1640.util.constant.ArticleStatusConst;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class ArticleMapper {
         articleResponseDto.setFacultyCode(article.getFaculty().getCode());
         articleResponseDto.setCampaignCode(article.getCampaign().getCode());
         articleResponseDto.setStatus(article.getStatus().getValue());
+        articleResponseDto.setCreatedAt(article.getCreatedAt().toInstant().getEpochSecond());
+        articleResponseDto.setUpdatedAt(article.getUpdatedAt().toInstant().getEpochSecond());
 
         return articleResponseDto;
     }
@@ -55,6 +58,8 @@ public class ArticleMapper {
         article.setFaculty(faculty);
         article.setCampaign(campaign);
         article.setStatus(ArticleStatusConst.PENDING);
+        article.setCreatedAt(DateUtil.now());
+        article.setUpdatedAt(DateUtil.now());
 
         return article;
     }
@@ -75,6 +80,8 @@ public class ArticleMapper {
         if (updateArticleRequestDto.getDocumentUrl() != null) {
             article.setDocumentUrl(updateArticleRequestDto.getDocumentUrl());
         }
+
+        article.setUpdatedAt(DateUtil.now());
 
         return article;
     }
