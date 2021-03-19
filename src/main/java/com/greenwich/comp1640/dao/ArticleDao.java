@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -90,6 +91,10 @@ public class ArticleDao extends BaseDao<Article, Long> {
                                                              ArticleStatusConst status,
                                                              Pageable pageable) {
         return this.articleRORepository.findByFacultyCodeAndCampaignCodeAndUserUsernameAndStatus(facultyCode, campaignCode, username, status, pageable);
+    }
+
+    public List<Article> findAllByCampaign(String code) {
+        return this.articleRORepository.findByCampaignCode(code);
     }
 
 }

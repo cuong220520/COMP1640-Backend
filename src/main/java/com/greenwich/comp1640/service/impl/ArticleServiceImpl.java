@@ -175,7 +175,17 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCode(String code, Pageable pageable) {
+        Faculty faculty = facultyDao.findByCode(code);
+
+        if (faculty == null) {
+            log.error(String.format("Can not find faculty with code: %s", code));
+            return responseFactory.fail(String.format("Can not find faculty with code: %s", code),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
         Page<Article> articles = articleDao.findByFacultyCode(code, pageable);
+
 
         GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
                 articles.getSize(),
@@ -189,6 +199,15 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ResponseEntity<GeneralResponse<Object>> getAllArticlesByCampaignCode(String code, Pageable pageable) {
+        Campaign campaign = campaignDao.findByCode(code);
+
+        if (campaign == null) {
+            log.error(String.format("Can not find campaign with code: %s", code));
+            return responseFactory.fail(String.format("Can not find campaign with code: %s", code),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
         Page<Article> articles = articleDao.findByCampaignCode(code, pageable);
 
         GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
@@ -238,6 +257,15 @@ public class ArticleServiceImpl implements ArticleService {
     public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatus(String code,
                                                                                         ArticleStatusConst status,
                                                                                         Pageable pageable) {
+        Faculty faculty = facultyDao.findByCode(code);
+
+        if (faculty == null) {
+            log.error(String.format("Can not find faculty with code: %s", code));
+            return responseFactory.fail(String.format("Can not find faculty with code: %s", code),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
         Page<Article> articles = articleDao.findByFacultyAndStatus(code, status, pageable);
 
         GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
@@ -255,6 +283,24 @@ public class ArticleServiceImpl implements ArticleService {
                                                                                                        ArticleStatusConst status,
                                                                                                        String campaignCode,
                                                                                                        Pageable pageable) {
+        Faculty faculty = facultyDao.findByCode(facultyCode);
+
+        if (faculty == null) {
+            log.error(String.format("Can not find faculty with code: %s", facultyCode));
+            return responseFactory.fail(String.format("Can not find faculty with code: %s", facultyCode),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        Campaign campaign = campaignDao.findByCode(campaignCode);
+
+        if (campaign == null) {
+            log.error(String.format("Can not find campaign with code: %s", campaignCode));
+            return responseFactory.fail(String.format("Can not find campaign with code: %s", campaignCode),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
         Page<Article> articles = articleDao.findByFacultyAndStatusAndCampaign(facultyCode, status, campaignCode, pageable);
 
         GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
@@ -272,6 +318,24 @@ public class ArticleServiceImpl implements ArticleService {
                                                                                                    ArticleStatusConst status,
                                                                                                    String username,
                                                                                                    Pageable pageable) {
+        Faculty faculty = facultyDao.findByCode(facultyCode);
+
+        if (faculty == null) {
+            log.error(String.format("Can not find faculty with code: %s", facultyCode));
+            return responseFactory.fail(String.format("Can not find faculty with code: %s", facultyCode),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        User user = userDao.findByUsername(username);
+
+        if (user == null) {
+            log.error(String.format("Can not find user with username %s", username));
+            return responseFactory.fail(String.format("Can not find user with username: %s", username),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
         Page<Article> articles = articleDao.findByFacultyAndStatusAndUsername(facultyCode, status, username, pageable);
 
         GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
@@ -289,6 +353,33 @@ public class ArticleServiceImpl implements ArticleService {
                                                                                                          String campaignCode,
                                                                                                          String username,
                                                                                                          Pageable pageable) {
+        Campaign campaign = campaignDao.findByCode(campaignCode);
+
+        if (campaign == null) {
+            log.error(String.format("Can not find campaign with code: %s", campaignCode));
+            return responseFactory.fail(String.format("Can not find campaign with code: %s", campaignCode),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        Faculty faculty = facultyDao.findByCode(facultyCode);
+
+        if (faculty == null) {
+            log.error(String.format("Can not find faculty with code: %s", facultyCode));
+            return responseFactory.fail(String.format("Can not find faculty with code: %s", facultyCode),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        User user = userDao.findByUsername(username);
+
+        if (user == null) {
+            log.error(String.format("Can not find user with username %s", username));
+            return responseFactory.fail(String.format("Can not find user with username: %s", username),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
         Page<Article> articles = articleDao.findByFacultyAndCampaignAndUsername(facultyCode, campaignCode, username, pageable);
 
         GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
@@ -305,6 +396,24 @@ public class ArticleServiceImpl implements ArticleService {
     public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndCampaignCode(String facultyCode,
                                                                                               String campaignCode,
                                                                                               Pageable pageable) {
+        Campaign campaign = campaignDao.findByCode(campaignCode);
+
+        if (campaign == null) {
+            log.error(String.format("Can not find campaign with code: %s", campaignCode));
+            return responseFactory.fail(String.format("Can not find campaign with code: %s", campaignCode),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        Faculty faculty = facultyDao.findByCode(facultyCode);
+
+        if (faculty == null) {
+            log.error(String.format("Can not find faculty with code: %s", facultyCode));
+            return responseFactory.fail(String.format("Can not find faculty with code: %s", facultyCode),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
         Page<Article> articles = articleDao.findByFacultyAndCampaign(facultyCode, campaignCode, pageable);
 
         GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
@@ -321,6 +430,24 @@ public class ArticleServiceImpl implements ArticleService {
     public ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndUsername(String facultyCode,
                                                                                           String username,
                                                                                           Pageable pageable) {
+
+        Faculty faculty = facultyDao.findByCode(facultyCode);
+
+        if (faculty == null) {
+            log.error(String.format("Can not find faculty with code: %s", facultyCode));
+            return responseFactory.fail(String.format("Can not find faculty with code: %s", facultyCode),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        User user = userDao.findByUsername(username);
+
+        if (user == null) {
+            log.error(String.format("Can not find user with username %s", username));
+            return responseFactory.fail(String.format("Can not find user with username: %s", username),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
 
         Page<Article> articles = articleDao.findByFacultyAndUsername(facultyCode, username, pageable);
 
@@ -340,6 +467,33 @@ public class ArticleServiceImpl implements ArticleService {
                                                                                                                   String username,
                                                                                                                   ArticleStatusConst status,
                                                                                                                   Pageable pageable) {
+        Campaign campaign = campaignDao.findByCode(campaignCode);
+
+        if (campaign == null) {
+            log.error(String.format("Can not find campaign with code: %s", campaignCode));
+            return responseFactory.fail(String.format("Can not find campaign with code: %s", campaignCode),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        Faculty faculty = facultyDao.findByCode(facultyCode);
+
+        if (faculty == null) {
+            log.error(String.format("Can not find faculty with code: %s", facultyCode));
+            return responseFactory.fail(String.format("Can not find faculty with code: %s", facultyCode),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        User user = userDao.findByUsername(username);
+
+        if (user == null) {
+            log.error(String.format("Can not find user with username %s", username));
+            return responseFactory.fail(String.format("Can not find user with username: %s", username),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
         Page<Article> articles = articleDao.findByFacultyAndCampaignAndUsernameAndStatus(facultyCode, campaignCode, username, status, pageable);
 
         GeneralResponse.PaginationMetadata paginationMetadata = new GeneralResponse.PaginationMetadata(
@@ -350,5 +504,21 @@ public class ArticleServiceImpl implements ArticleService {
         );
 
         return responseFactory.success(GeneralResponse.paginated(paginationMetadata, ArticleMapper.toListDto(articles.getContent())));
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> getAllArticlesByCampaignCode(String code) {
+        Campaign campaign = campaignDao.findByCode(code);
+
+        if (campaign == null) {
+            log.error(String.format("Can not find campaign with code: %s", code));
+            return responseFactory.fail(String.format("Can not find campaign with code: %s", code),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        List<Article> articles = articleDao.findAllByCampaign(code);
+
+        return responseFactory.success(ArticleMapper.toListDto(articles));
     }
 }

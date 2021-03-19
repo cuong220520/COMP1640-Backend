@@ -163,4 +163,8 @@ public class ArticleController {
                 campaignCode, username, status, pageable);
     }
 
+    @GetMapping(value = "/get-all-by-campaign")
+    public ResponseEntity<GeneralResponse<Object>> getByCampaignCode(@RequestParam("code") String code) {
+        return articleService.getAllArticlesByCampaignCode(code);
+    }
 }

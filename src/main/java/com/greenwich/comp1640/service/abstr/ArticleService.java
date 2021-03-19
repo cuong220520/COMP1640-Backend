@@ -25,6 +25,8 @@ public interface ArticleService {
 
     ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCode(String code, Pageable pageable);
 
+    ResponseEntity<GeneralResponse<Object>> getAllArticlesByCampaignCode(String code);
+
     ResponseEntity<GeneralResponse<Object>> getAllArticlesByCampaignCode(String code, Pageable pageable);
 
     ResponseEntity<GeneralResponse<Object>> getAllArticlesByFacultyCodeAndStatus(String code, ArticleStatusConst status, Pageable pageable);

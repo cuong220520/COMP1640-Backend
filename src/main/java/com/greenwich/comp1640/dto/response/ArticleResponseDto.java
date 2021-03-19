@@ -1,12 +1,10 @@
 package com.greenwich.comp1640.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.greenwich.comp1640.util.constant.ArticleStatusConst;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import javax.persistence.*;
 
 @Getter
 @Setter
