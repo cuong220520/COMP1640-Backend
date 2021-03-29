@@ -30,12 +30,22 @@ CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
+  `first_name` VARCHAR(100),
+  `last_name` VARCHAR(100),
+  `date_of_birth` DATETIME,
+  `phone_number` VARCHAR(100),
+  `faculty_code` VARCHAR(4),
+  ADD FOREIGN KEY(faculty_code) REFERENCES comp_1640.`faculty`(`code`);
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
 );
 
 LOCK TABLES `user` WRITE;
-INSERT INTO `user` VALUES (1,'admin','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG');
+INSERT INTO `user` VALUES
+(1,'manager','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'COMP'),
+(2,'coordinator','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'COMP'),
+(3,'student','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'COMP'),
+(4,'guest','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'COMP');
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `role`;
@@ -63,8 +73,67 @@ CREATE TABLE `user_role` (
 );
 
 LOCK TABLES `user_role` WRITE;
-INSERT INTO `user_role` VALUES (1,1,1);
-INSERT INTO `user_role` VALUES (2,1,2);
-INSERT INTO `user_role` VALUES (3,1,3);
-INSERT INTO `user_role` VALUES (4,1,4);
+INSERT INTO `user_role` VALUES (1, 1, 4);
+INSERT INTO `user_role` VALUES (2, 2, 3);
+INSERT INTO `user_role` VALUES (3, 3, 2);
+INSERT INTO `user_role` VALUES (4, 4, 1);
 UNLOCK TABLES;
+
+DROP TABLE IF EXISTS comp_1640.`campaign`;
+CREATE TABLE comp_1640.`campaign` (
+    `code` VARCHAR(255),
+    `submit_deadline` DATETIME,
+    `edit_deadline` DATETIME,
+    `start_date` DATETIME,
+    `admin_id` INT,
+    `status` ENUM('ACTIVE', 'DISABLE') DEFAULT 'DISABLE',
+    PRIMARY KEY(`code`),
+    FOREIGN KEY(`admin_id`) REFERENCES comp_1640.`user`(id)
+);
+
+DROP TABLE IF EXISTS comp_1640.`faculty`;
+
+CREATE TABLE comp_1640.`faculty` (
+	`code` VARCHAR(4),
+    `name` VARCHAR(100),
+    `description` VARCHAR(255),
+    `coordinator_id` INT,
+    PRIMARY KEY (`code`),
+    FOREIGN KEY (`coordinator_id`) REFERENCES comp_1640.`user`(id)
+);
+
+INSERT INTO comp_1640.`faculty`
+VALUES
+('COMP', 'Computer Science and Software', 'Computer Science and Software', 1),
+('BUSI', 'Business', 'Business', 1),
+('DESI', 'Design', 'Design', 1);
+
+DROP TABLE IF EXISTS comp_1640.`article`;
+
+CREATE TABLE comp_1640.`article`(
+	`id` INT auto_increment NOT NULL,
+	`name` VARCHAR(255),
+	`message` VARCHAR (255),
+    `status` ENUM('PENDING', 'ACCEPTED', 'DENIED') DEFAULT 'PENDING',
+    `image_url` VARCHAR(255),
+    `document_url` VARCHAR(255),
+    `user_id` INT,
+    `faculty_code` VARCHAR(255),
+    `campaign_code` VARCHAR(255),
+    `created_at` DATETIME,
+    `updated_at` DATETIME,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES comp_1640.`user`(`id`),
+    FOREIGN KEY (`faculty_code`) REFERENCES comp_1640.`faculty`(`code`),
+    FOREIGN KEY (`campaign_code`) REFERENCES comp_1640.`campaign`(`code`)
+);
+
+CREATE TABLE `comp_1640`.`comment`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `content` VARCHAR(255),
+    `user_id` INT,
+    `article_id` INT,
+    PRIMARY KEY(`id`),
+    FOREIGN KEY(`user_id`) REFERENCES `comp_1640`.`user`(id),
+    FOREIGN KEY(`article_id`) REFERENCES `comp_1640`.`article`(id)
+);

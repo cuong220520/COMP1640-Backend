@@ -4,12 +4,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.greenwich.comp1640.dao.FacultyDao;
 import com.greenwich.comp1640.dao.RoleDao;
 import com.greenwich.comp1640.dao.UserDao;
 import com.greenwich.comp1640.dao.UserRoleDao;
 import com.greenwich.comp1640.dto.mapper.UserMapper;
 import com.greenwich.comp1640.dto.request.user.AuthRequestDto;
 import com.greenwich.comp1640.dto.request.user.SignupRequestDto;
+import com.greenwich.comp1640.model.Article;
+import com.greenwich.comp1640.model.Faculty;
 import com.greenwich.comp1640.model.Role;
 import com.greenwich.comp1640.model.UserRole;
 import com.greenwich.comp1640.response.GeneralResponse;
@@ -62,6 +65,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    FacultyDao facultyDao;
 
     public ResponseEntity<GeneralResponse<Object>> login(AuthRequestDto authRequestDto) {
         try {
@@ -130,20 +136,29 @@ public class UserServiceImpl implements UserService {
         try {
             com.greenwich.comp1640.model.User existedUser = userDao.findByUsername(signupRequestDto.getUsername());
 
-            if(existedUser != null) {
+            if (existedUser != null) {
+                log.error("Username has already existed");
                 return responseFactory.fail("Username has already existed", ResponseStatusCodeConst.DUPLICATE_ERROR, null);
+            }
+
+            Faculty faculty = facultyDao.findByCode(signupRequestDto.getFacultyCode());
+
+            if (faculty == null) {
+                log.error("Can not find faculty with code: {}", signupRequestDto.getFacultyCode());
+                return responseFactory.fail(String.format("Can not find faculty with code: %s", signupRequestDto.getFacultyCode()),
+                        ResponseStatusCodeConst.DUPLICATE_ERROR, null);
             }
 
             for (Long rqRoleId : signupRequestDto.getRoles()) {
                 Optional<Role> optRole = roleDao.findById(rqRoleId);
 
                 if (!optRole.isPresent()) {
-                    return responseFactory.fail("Invalid role id", ResponseStatusCodeConst.INVALID_ROLE_ID, null);
+                    log.error("Invalid role id: {}", rqRoleId);
+                    return responseFactory.fail(String.format("Invalid role id: %d", rqRoleId), ResponseStatusCodeConst.INVALID_ROLE_ID, null);
                 }
             }
 
-            com.greenwich.comp1640.model.User newUser = new com.greenwich.comp1640.model.User();
-            newUser.setUsername(signupRequestDto.getUsername());
+            com.greenwich.comp1640.model.User newUser = UserMapper.createFromDto(signupRequestDto, faculty);
             newUser.setPassword(passwordEncoder.encode(signupRequestDto.getPassword()));
 
             newUser = userDao.saveUser(newUser);
@@ -175,5 +190,21 @@ public class UserServiceImpl implements UserService {
         }
 
         return responseFactory.success(UserMapper.toDto(user));
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> getUsersByFacultyAndRole(Long roleId) {
+        Optional<Role> role = roleDao.findById(roleId);
+
+        if (!role.isPresent()) {
+            log.error(String.format("Can not find role with role id: %d", roleId));
+            return responseFactory.fail(String.format("Can not find role with role id: %d", roleId),
+                    ResponseStatusCodeConst.DATA_NOT_FOUND_ERROR,
+                    null);
+        }
+
+        List<com.greenwich.comp1640.model.User> users = userDao.findByFacultyAndRole(roleId);
+        
+        return responseFactory.success(UserMapper.toListDto(users));
     }
 }

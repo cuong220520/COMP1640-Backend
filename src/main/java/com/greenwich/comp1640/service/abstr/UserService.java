@@ -18,4 +18,6 @@ public interface UserService {
 
     ResponseEntity<GeneralResponse<Object>> getUserByUsername(String username);
 
+    ResponseEntity<GeneralResponse<Object>> getUsersByFacultyAndRole(Long roleId);
+
 }

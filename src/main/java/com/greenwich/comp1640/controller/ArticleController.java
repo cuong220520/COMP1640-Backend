@@ -80,8 +80,8 @@ public class ArticleController {
         return articleService.getAllArticlesByStatus(status, pageable);
     }
 
-    @PutMapping(value = "/update-status/{id}")
-    public ResponseEntity<GeneralResponse<Object>> updateArticle(
+    @GetMapping(value = "/update-status/{id}")
+    public ResponseEntity<GeneralResponse<Object>> updateArticleStatus(
             @PathVariable("id") Long id,
             @RequestParam("status") ArticleStatusConst status) {
         return articleService.updateArticleStatus(id, status);

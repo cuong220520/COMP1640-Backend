@@ -44,4 +44,10 @@ public class AuthController {
     public ResponseEntity<GeneralResponse<Object>> getUser(@RequestParam("username") String username) {
         return userService.getUserByUsername(username);
     }
+
+    @GetMapping(value = "/get-user-by-role")
+    public ResponseEntity<GeneralResponse<Object>> getUserByFacultyAndRole(
+            @RequestParam("role_id") Long roleId) {
+        return userService.getUsersByFacultyAndRole(roleId);
+    }
 }

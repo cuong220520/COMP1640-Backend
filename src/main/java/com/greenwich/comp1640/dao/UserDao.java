@@ -6,6 +6,7 @@ import com.greenwich.comp1640.repository.readwrite.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -30,5 +31,9 @@ public class UserDao extends BaseDao<User, Long> {
 
     public Optional<User> findById(Long id) {
         return this.userRORepository.findById(id);
+    }
+
+    public List<User> findByFacultyAndRole(Long roleId) {
+        return this.userRORepository.findByFacultyAndRole(roleId);
     }
 }
