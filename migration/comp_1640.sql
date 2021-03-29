@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `comp_1640`;
+CREATE DATABASE IF NOT EXISTS `comp_1640`;
 USE `comp_1640`;
 
 DROP TABLE IF EXISTS `demo`;
@@ -34,18 +34,17 @@ CREATE TABLE `user` (
   `last_name` VARCHAR(100),
   `date_of_birth` DATETIME,
   `phone_number` VARCHAR(100),
-  `faculty_code` VARCHAR(4),
-  ADD FOREIGN KEY(faculty_code) REFERENCES comp_1640.`faculty`(`code`);
+  `email` VARCHAR(100),
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
 );
 
 LOCK TABLES `user` WRITE;
-INSERT INTO `user` VALUES
-(1,'manager','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'COMP'),
-(2,'coordinator','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'COMP'),
-(3,'student','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'COMP'),
-(4,'guest','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'COMP');
+INSERT INTO `user` VALUES 
+(1,'manager','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'phamthaison11@gmail.com'),
+(2,'coordinator','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'phamthaison11@gmail.com'),
+(3,'student','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'phamthaison11@gmail.com'),
+(4,'guest','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'phamthaison11@gmail.com');
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `role`;
@@ -104,9 +103,9 @@ CREATE TABLE comp_1640.`faculty` (
 
 INSERT INTO comp_1640.`faculty`
 VALUES
-('COMP', 'Computer Science and Software', 'Computer Science and Software', 1),
-('BUSI', 'Business', 'Business', 1),
-('DESI', 'Design', 'Design', 1);
+('COMP', 'Computer Science and Software', 'Computer Science and Software', 2),
+('BUSI', 'Business', 'Business', 2),
+('DESI', 'Design', 'Design', 2);
 
 DROP TABLE IF EXISTS comp_1640.`article`;
 
@@ -137,3 +136,11 @@ CREATE TABLE `comp_1640`.`comment`(
     FOREIGN KEY(`user_id`) REFERENCES `comp_1640`.`user`(id),
     FOREIGN KEY(`article_id`) REFERENCES `comp_1640`.`article`(id)
 );
+
+ALTER TABLE `comp_1640`.`user`
+ADD COLUMN `faculty_code` VARCHAR(4),
+ADD FOREIGN KEY(faculty_code) REFERENCES comp_1640.`faculty`(`code`);
+
+UPDATE comp_1640.`user`
+SET `faculty_code` = 'COMP'
+WHERE `id` BETWEEN 1 and 4;
