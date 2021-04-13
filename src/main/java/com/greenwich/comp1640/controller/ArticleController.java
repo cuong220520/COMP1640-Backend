@@ -32,6 +32,12 @@ public class ArticleController {
         return articleService.getAllArticles(pageable);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<GeneralResponse<Object>> getAllArticle() {
+
+        return articleService.getAllArticles();
+    }
+
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<GeneralResponse<Object>> updateArticle(
             @PathVariable("id") Long id,

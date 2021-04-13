@@ -521,4 +521,11 @@ public class ArticleServiceImpl implements ArticleService {
 
         return responseFactory.success(ArticleMapper.toListDto(articles));
     }
+
+    @Override
+    public ResponseEntity<GeneralResponse<Object>> getAllArticles() {
+        List<Article> articles = articleDao.findAll();
+
+        return responseFactory.success(ArticleMapper.toListDto(articles));
+    }
 }

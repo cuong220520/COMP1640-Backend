@@ -11,6 +11,8 @@ public interface ArticleService {
 
     ResponseEntity<GeneralResponse<Object>> getAllArticles(Pageable pageable);
 
+    ResponseEntity<GeneralResponse<Object>> getAllArticles();
+
     ResponseEntity<GeneralResponse<Object>> createArticle(CreateArticleRequestDto createArticleRequestDto);
 
     ResponseEntity<GeneralResponse<Object>> updateArticle(Long id, UpdateArticleRequestDto updateArticleRequestDto);

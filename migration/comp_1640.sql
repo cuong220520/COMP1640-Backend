@@ -42,7 +42,9 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES 
 (1,'manager','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'phamthaison11@gmail.com'),
-(2,'coordinator','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'phamthaison11@gmail.com'),
+(2,'coordinator1','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'phamthaison11@gmail.com'),
+(5,'coordinator2','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'phamthaison11@gmail.com'),
+(6,'coordinator3','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'phamthaison11@gmail.com'),
 (3,'student','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'phamthaison11@gmail.com'),
 (4,'guest','$2y$10$ygne8NZRPeImnNJflEGX9.dd7MkRtvbriPBvgRWWkMNBh4Csa4wkG', 'John', 'Doe', '1970-01-01', '0123456789', 'phamthaison11@gmail.com');
 UNLOCK TABLES;
@@ -76,6 +78,8 @@ INSERT INTO `user_role` VALUES (1, 1, 4);
 INSERT INTO `user_role` VALUES (2, 2, 3);
 INSERT INTO `user_role` VALUES (3, 3, 2);
 INSERT INTO `user_role` VALUES (4, 4, 1);
+INSERT INTO `user_role` VALUES (5, 5, 3);
+INSERT INTO `user_role` VALUES (6, 6, 3);
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS comp_1640.`campaign`;
@@ -104,8 +108,8 @@ CREATE TABLE comp_1640.`faculty` (
 INSERT INTO comp_1640.`faculty`
 VALUES
 ('COMP', 'Computer Science and Software', 'Computer Science and Software', 2),
-('BUSI', 'Business', 'Business', 2),
-('DESI', 'Design', 'Design', 2);
+('BUSI', 'Business', 'Business', 5),
+('DESI', 'Design', 'Design', 6);
 
 DROP TABLE IF EXISTS comp_1640.`article`;
 
@@ -143,4 +147,9 @@ ADD FOREIGN KEY(faculty_code) REFERENCES comp_1640.`faculty`(`code`);
 
 UPDATE comp_1640.`user`
 SET `faculty_code` = 'COMP'
-WHERE `id` BETWEEN 1 and 4;
+WHERE `id` BETWEEN 1 and 4,
+SET `faculty_code` = 'BUSI'
+WHERE `id` = 5,
+SET `faculty_code` = 'DESI'
+WHERE `id` = 6,
+;
